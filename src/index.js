@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require('express');
 const Wechall = require('./utils/Wechall');
 
@@ -5,7 +6,12 @@ var app = express();
 var port = process.env.PORT || 8085;
 var router = express.Router();
 
-router.get('/rank', async function(req, res) {
+var corsOptions = {
+	origin: 'http://localhost:3000',
+	optionsSuccessStatus: 200
+}
+
+router.get('/rank', cors(corsOptions), async function(req, res) {
 	if (typeof req.query !== 'object' || typeof req.query.profile !== 'string' || !req.query.profile.length) {
 		return res.json(getResponse(400, 'Invalid request', []));
 	}
