@@ -1,0 +1,24 @@
+{
+	"name": "wechall-ranking-server",
+	"version": "1.0.0",
+	"description": "",
+	"main": "src/index.js",
+	"scripts": {
+		"start": "nodemon src/index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/metalfacesec/wechall-ranking-server.git"
+	},
+	"author": "Sean Moriarty",
+	"license": "GPL-3.0-or-later",
+	"bugs": {
+		"url": "https://github.com/metalfacesec/wechall-ranking-server/issues"
+	},
+	"homepage": "https://github.com/metalfacesec/wechall-ranking-server#readme",
+	"dependencies": {
+		"axios": "^0.24.0",
+		"express": "^4.17.1"
+	}
+}
