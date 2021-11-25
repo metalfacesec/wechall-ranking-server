@@ -1,4 +1,5 @@
 const cors = require('cors');
+const Db = require('./utils/Db');
 const express = require('express');
 const Wechall = require('./utils/Wechall');
 
@@ -18,7 +19,7 @@ router.get('/rank', cors(corsOptions), async function(req, res) {
 	
 	try {
 		let rank = await Wechall.getRank(req.query.profile);
-		res.json(getResponse(200, 'success', rank));
+		res.json(getResponse(200, 'success', `${rank}`));
 	} catch (err) {
 		console.log(err);
 		return res.json(getResponse(400, 'Invalid request', []));
@@ -32,6 +33,8 @@ function getResponse(status, message, data) {
 		data: data
 	}
 }
+
+Db.init();
 
 app.use('/api', router);
 

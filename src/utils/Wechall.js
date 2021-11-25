@@ -1,8 +1,41 @@
-var axios = require('axios');
+const axios = require('axios');
+const Db = require('./Db');
 
 class Wechall {
 	static baseUrl = 'https://www.wechall.net/profile/';
+
 	static async getRank(profile) {
+		let dbRank = await Wechall.getRankFromDB(profile);
+		if (dbRank.length && typeof dbRank[0].rank !== 'undefined') {
+			return dbRank[0].rank;
+		}
+
+		let rank = await Wechall.getRankFromWechall(profile);
+		Wechall.insertRankInDB(profile, rank);
+		return rank;
+	}
+
+	static async insertRankInDB(profile, rank) {
+		try {
+			const sql = "INSERT INTO userRanks (`profile`, `rank`) VALUES (?,?)";
+
+			await Db.query(sql, [profile, rank]);
+		} catch (err) {
+			return console.error(err.message);
+		}
+	}
+
+	static async getRankFromDB(profile) {
+		try {
+			const sql = "SELECT rank, ctime FROM userRanks WHERE profile=? AND datetime(ctime) >=datetime('now', '-1 Hour') ORDER BY ctime DESC LIMIT 1";
+			
+			return await Db.query(sql, [profile]);
+		} catch (err) {
+			return console.error(err.message);
+		}
+	}
+
+	static async getRankFromWechall(profile) {
 		if (!profile.match(/^[0-9a-z]+$/)) {
 			throw 'Invalid request';
 		}
