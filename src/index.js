@@ -8,7 +8,7 @@ var port = process.env.PORT || 8085;
 var router = express.Router();
 
 var corsOptions = {
-	origin: 'http://localhost:3000',
+	origin: 'http://rank.moriarty.work',
 	optionsSuccessStatus: 200
 }
 
