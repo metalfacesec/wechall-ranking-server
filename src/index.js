@@ -3,12 +3,14 @@ const Db = require('./utils/Db');
 const express = require('express');
 const Wechall = require('./utils/Wechall');
 
+const config = require('../config/config.json');
+
 var app = express();
 var port = process.env.PORT || 8085;
 var router = express.Router();
 
 var corsOptions = {
-	origin: 'http://rank.moriarty.work',
+	origin: config.corsUrl,
 	optionsSuccessStatus: 200
 }
 
