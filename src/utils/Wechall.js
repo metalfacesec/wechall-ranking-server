@@ -7,12 +7,18 @@ class Wechall {
 	static async getRank(profile) {
 		let dbRank = await Wechall.getRankFromDB(profile);
 		if (dbRank.length && typeof dbRank[0].rank !== 'undefined') {
-			return dbRank[0].rank;
+			return {
+				rank: dbRank[0].rank,
+				time: `${new Date(dbRank[0].ctime).toLocaleDateString()} ${new Date(dbRank[0].ctime).toLocaleTimeString('en-US', { hour: "numeric", minute: "numeric"})}`
+			}
 		}
 
 		let rank = await Wechall.getRankFromWechall(profile);
 		Wechall.insertRankInDB(profile, rank);
-		return rank;
+		return {
+			rank: dbRank[0].rank,
+			time: `${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString('en-US', { hour: "numeric", minute: "numeric"})}`
+		}
 	}
 
 	static async insertRankInDB(profile, rank) {
